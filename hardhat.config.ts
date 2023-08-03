@@ -1,52 +1,61 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
+import "@nomicfoundation/hardhat-toolbox";
+import "@openzeppelin/hardhat-upgrades";
 import "hardhat-deploy";
-import "@nomiclabs/hardhat-ethers";
-import { HardhatUserConfig } from "hardhat/types";
+import "solidity-coverage";
+import "@typechain/hardhat";
+import "hardhat-contract-sizer";
+import "hardhat-gas-reporter";
+import { HardhatUserConfig } from "hardhat/config";
 
 import "./tasks";
 
 /** @type import('hardhat/config').HardhatUserConfig */
 const config: HardhatUserConfig = {
+  defaultNetwork: "hardhat",
+  gasReporter: {
+    enabled: process.env.REPORT_GAS ? true : false,
+    showTimeSpent: true,
+    currency: "USD",
+  },
   networks: {
     hardhat: {
-      forking: {
-        url: "https://endpoints.omniatech.io/v1/op/mainnet/public",
-      },
-      initialBaseFeePerGas: 100000000,
-      gasPrice: 100000000,
+      chainId: 31337,
     },
-    localhost: {
+    local: {
       url: "http://localhost:8545",
-      accounts: [process.env.localhost!],
+      saveDeployments: false
     },
-    ethereum: {
-      url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-      gas: 6000000,
+    testnet: {
+      url: "https://api.s0.b.hmny.io",
+      accounts: { mnemonic: process.env.TEST_MNEMONIC },
+      chainId: 1666700000,
+      live: true,
+      gasMultiplier: 2,
+      saveDeployments: true
     },
-    fantom: {
-      chainId: 250,
-      url: "https://rpc.ftm.tools",
-      accounts: [process.env.FANTOM_DEPLOYER_KEY!],
-      gasPrice: 15000000000,
-      verify: {
-        etherscan: {
-          apiUrl: "https://api.ftmscan.com",
-          apiKey: process.env.FANTOM_ETHERSCAN_API_KEY,
-        },
-      },
+    mainnet: {
+      url: "https://api.harmony.one",
+      accounts: { mnemonic: process.env.MNEMONIC },
+      chainId: 1666600000,
+      live: true,
+      gasPrice: 100e+9,
+      gasMultiplier: 2,
+      gas: 10e+6
     },
-    optimism: {
-      url: "https://mainnet.optimism.io",
-      //ovm: true,
-      accounts: [process.env.OPTIMISM_DEPLOYER_KEY!],
-      verify: {
-        etherscan: {
-          apiUrl: "https://api-optimistic.etherscan.io",
-          apiKey: process.env.OPTMISM_ETHERSCAN_API_KEY,
-        },
-      },
+    s1: {
+      url: "https://s1.api.harmony.one",
+      accounts: { mnemonic: process.env.MNEMONIC },
+      chainId: 1666600001,
+      live: true,
+      gasPrice: 100e+9,
+      gasMultiplier: 2,
+      gas: 10e+6
+    },
+    coverage: {
+      url: "http://127.0.0.1:8555",
     },
   },
   solidity: {
@@ -80,8 +89,30 @@ const config: HardhatUserConfig = {
       },
     ],
   },
+  paths: {
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
+    artifacts: "./artifacts",
+  },
+  mocha: {
+    timeout: 50000,
+  },
   namedAccounts: {
-    deployer: 0,
+    deployer: {
+      default: 0,
+    },
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
+  contractSizer: {
+    alphaSort: false,
+    disambiguatePaths: false,
+    runOnCompile: false,
+    strict: false,
+    only: [],
+    except: [],
   },
 };
 
