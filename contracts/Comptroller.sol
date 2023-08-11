@@ -1458,7 +1458,7 @@ contract Comptroller is ComptrollerV7Storage, ComptrollerInterface, ComptrollerE
     }
 
     function getBlockNumber() virtual public view returns (uint) {
-        return block.number;
+        return block.timestamp;
     }
 
     /**

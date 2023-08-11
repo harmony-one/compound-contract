@@ -197,7 +197,7 @@ abstract contract CToken is CTokenInterface, ExponentialNoError, TokenErrorRepor
      *  This exists mainly for inheriting test contracts to stub this result.
      */
     function getBlockNumber() virtual internal view returns (uint) {
-        return block.number;
+        return block.timestamp;
     }
 
     /**
