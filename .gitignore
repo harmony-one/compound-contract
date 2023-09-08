@@ -113,3 +113,6 @@ deployments/hardhat
 deployments/localhost
 
 typechain-types
+
+deployments
+exports
