@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "lint:sol": "solhint \"contracts/**/*.sol\"",
-        "prettier": "prettier --write \"contracts/**/*.sol\" \"test/**/*.js\" \"deploy/**/*.js\"",
+        "prettier": "prettier --write \"contracts/**/*.sol\" \"test/**/*.ts\" \"deploy/**/*.ts\"",
         "build": "npm run compile",
         "compile": "npx hardhat compile",
         "coverage": "npx hardhat coverage --network hardhat",
