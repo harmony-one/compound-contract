@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "lib": ["ES2018", "DOM"],
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "strict": true,
-    "target": "ES2018",
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "noImplicitThis": false
+      "target": "es2020",
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "skipLibCheck": true,
+      "outDir": "dist",
+      "declaration": true
   },
-  "include": ["./hardhat.config.ts", "**/*.d.ts", "**/*.ts", "**/*.tsx"],
-  "files": ["./hardhat.config.ts", "./declarations.d.ts"]
+  "exclude": ["dist", "node_modules"],
+  "include": ["./typechain-types", "./client"],
+  "files": ["./index.ts"]
 }
