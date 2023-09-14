@@ -1,11 +1,10 @@
 import { deployments, ethers } from "hardhat";
 
-const setupFixture = deployments.createFixture(async ({ deployments, companionNetworks }, options) => {
-    await deployments.fixture(undefined, {
-        keepExistingDeployments: true,
-    });
+const UNITROLLOER_ADDRESS = "0x60CF091cD3f50420d50fD7f707414d0DF4751C58";
 
-    const companionDeployments = companionNetworks["mainnet"].deployments;
+const setupFixture = deployments.createFixture(async ({ deployments, companionNetworks }, options) => {
+    await deployments.fixture([]);
+
     const [deployer] = await ethers.getSigners();
 
     const comptrollerDeploy = await deployments.deploy("Comptroller", {
@@ -14,7 +13,7 @@ const setupFixture = deployments.createFixture(async ({ deployments, companionNe
         contract: "contracts/Comptroller.sol:Comptroller",
     });
 
-    const unitrollerDeploy = await companionDeployments.get("ComptrollerV1");
+    const unitrollerDeploy = await ethers.getContractAt("Unitroller", UNITROLLOER_ADDRESS);
     const unitroller = await ethers.getContractAt("Unitroller", unitrollerDeploy.address);
     // set storage to new comptroller deploy
     await ethers.provider.send("hardhat_setStorageAt", [
@@ -25,16 +24,22 @@ const setupFixture = deployments.createFixture(async ({ deployments, companionNe
 
     const comptroller = await ethers.getContractAt("Comptroller", unitrollerDeploy.address);
 
-    const rewardDistributorDeploy = await deployments.deploy("RewardDistributor", {
+    const rewardDistributorDeploy = await deployments.deploy("ExternalRewardDistributor", {
         from: deployer.address,
-        args: [comptroller.address],
         log: true,
-        contract: "contracts/ExternalRewardDistributor.sol:ExternalRewardDistributorV1",
+        contract: "contracts/ExternalRewardDistributor.sol:ExternalRewardDistributor",
+        args: [],
+        proxy: {
+            proxyContract: "OpenZeppelinTransparentProxy",
+            execute: {
+                init: {
+                    methodName: "initialize",
+                    args: [unitrollerDeploy.address],
+                },
+            },
+        },
     });
-    const rewardDistributor = await ethers.getContractAt(
-        "ExternalRewardDistributorV1",
-        rewardDistributorDeploy.address,
-    );
+    const rewardDistributor = await ethers.getContractAt("ExternalRewardDistributor", rewardDistributorDeploy.address);
 
     // read markets from comptroller and create contracts
     const markets = await comptroller.getAllMarkets();
