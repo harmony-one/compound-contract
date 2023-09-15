@@ -9,9 +9,7 @@ interface ComptrollerLensInterface {
 
     function oracle() external view returns (PriceOracle);
 
-    function getAccountLiquidity(
-        address
-    ) external view returns (uint256, uint256, uint256);
+    function getAccountLiquidity(address) external view returns (uint256, uint256, uint256);
 
     function getAssetsIn(address) external view returns (CToken[] memory);
 
@@ -29,10 +27,7 @@ interface ComptrollerLensInterface {
 
     function borrowCaps(address) external view returns (uint256);
 
-    function getExternalRewardDistributorAddress()
-        external
-        view
-        returns (address);
+    function getExternalRewardDistributorAddress() external view returns (address);
 }
 
 interface ExternalRewardDistributorInterface {
@@ -45,26 +40,18 @@ contract BasicLens {
     function rewardsAccrued(
         ComptrollerLensInterface comptroller,
         address account
-    )
-        external
-        returns (address[] memory rewardTokens, uint256[] memory accrued)
-    {
-        address externalRewardDistributor = comptroller
-            .getExternalRewardDistributorAddress();
+    ) external returns (address[] memory rewardTokens, uint256[] memory accrued) {
+        address externalRewardDistributor = comptroller.getExternalRewardDistributorAddress();
 
-        rewardTokens = ExternalRewardDistributorInterface(
-            externalRewardDistributor
-        ).getRewardTokens();
+        rewardTokens = ExternalRewardDistributorInterface(externalRewardDistributor).getRewardTokens();
 
         address defaultRewardToken = comptroller.getCompAddress();
-        bool doesDefaultTokenExist = ExternalRewardDistributorInterface(
-            externalRewardDistributor
-        ).rewardTokenExists(defaultRewardToken);
+        bool doesDefaultTokenExist = ExternalRewardDistributorInterface(externalRewardDistributor).rewardTokenExists(
+            defaultRewardToken
+        );
 
         if (!doesDefaultTokenExist) {
-            address[] memory tempRewardTokens = new address[](
-                rewardTokens.length + 1
-            );
+            address[] memory tempRewardTokens = new address[](rewardTokens.length + 1);
             tempRewardTokens[0] = defaultRewardToken;
             for (uint256 i = 0; i < rewardTokens.length; i++) {
                 tempRewardTokens[i + 1] = rewardTokens[i];
@@ -72,17 +59,11 @@ contract BasicLens {
             rewardTokens = tempRewardTokens;
         }
 
-        uint256[] memory beforeBalances = getBalancesInternal(
-            rewardTokens,
-            account
-        );
+        uint256[] memory beforeBalances = getBalancesInternal(rewardTokens, account);
 
         comptroller.claimComp(account);
 
-        uint256[] memory afterBalances = getBalancesInternal(
-            rewardTokens,
-            account
-        );
+        uint256[] memory afterBalances = getBalancesInternal(rewardTokens, account);
 
         accrued = new uint256[](rewardTokens.length);
         for (uint256 i = 0; i < rewardTokens.length; i++) {
