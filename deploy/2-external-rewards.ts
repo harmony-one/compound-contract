@@ -14,8 +14,7 @@ const func: DeployFunction = async ({
     await deploy("ExternalRewardDistributor", {
         from: deployer,
         log: true,
-        contract:
-            "contracts/ExternalRewardDistributor.sol:ExternalRewardDistributor",
+        contract: "contracts/ExternalRewardDistributor.sol:ExternalRewardDistributor",
         args: [],
         proxy: {
             proxyContract: "OpenZeppelinTransparentProxy",

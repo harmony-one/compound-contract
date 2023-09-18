@@ -7,7 +7,6 @@ const func: DeployFunction = async ({
     ethers,
     network,
 }: HardhatRuntimeEnvironment) => {
-
     const { deployer } = await getNamedAccounts();
 
     let comptrollerImplDeploy = await getOrNull("ComptrollerImpl");
