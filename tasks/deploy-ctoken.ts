@@ -2,7 +2,7 @@ import { task, types } from "hardhat/config";
 
 /**
  * npx hardhat deploy-ctoken \
- * --network optimism \
+ * --network mainnet \
  * --underlying-address 0x1F32b1c2345538c0c6f582fCB022739c4A194Ebb \
  * --underlying-decimals 18 \
  * --underlying-name "Wrapped liquid staked Ether 2.0" \
@@ -42,8 +42,8 @@ task("deploy-ctoken", "Deploys a new ctoken")
     const { deployer } = await getNamedAccounts();
 
     const contractKey = `CErc20Immutable_${underlyingSymbol}`;
-    const soName = `Sonne ${underlyingName}`;
-    const soSymbol = `so${underlyingSymbol}`;
+    const cTokenName = `Compound ${underlyingName}`;
+    const cTokenSymbol = `c${underlyingSymbol}`;
 
     let cToken;
 
@@ -67,8 +67,8 @@ task("deploy-ctoken", "Deploys a new ctoken")
           comptrollerDeploy.address,
           interestRateModelDeploy.address,
           initialExchangeRateMantissa,
-          soName,
-          soSymbol,
+          cTokenName,
+          cTokenSymbol,
           decimals,
           owner,
         ],

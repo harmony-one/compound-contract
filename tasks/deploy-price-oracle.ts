@@ -3,7 +3,7 @@ import { task } from "hardhat/config";
 import protocolConfig from "../protocol.config";
 import { filterCTokenDeployments } from "./_utils";
 
-// npx hardhat deploy-price-oracle --network optimism
+// npx hardhat deploy-price-oracle --network mainnet
 
 task(
     "deploy-price-oracle",
@@ -30,14 +30,14 @@ task(
     );
 
     const priceFeeds = cTickers.map((cTicker) => {
-        const soToken = priceFeedConfig[cTicker];
-        if (!soToken) throw new Error(`No SO token found for ${cTicker}`);
-        return soToken.priceFeed;
+        const cToken = priceFeedConfig[cTicker];
+        if (!cToken) throw new Error(`No CToken found for ${cTicker}`);
+        return cToken.priceFeed;
     });
     const baseUnits = cTickers.map((cTicker) => {
-        const soToken = priceFeedConfig[cTicker];
-        if (!soToken) throw new Error(`No SO token found for ${cTicker}`);
-        return soToken.baseUnit;
+        const cToken = priceFeedConfig[cTicker];
+        if (!cToken) throw new Error(`No CToken found for ${cTicker}`);
+        return cToken.baseUnit;
     });
 
     const oracle = await deploy("ChainlinkPriceOracle", {

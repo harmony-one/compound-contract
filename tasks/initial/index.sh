@@ -1,6 +1,6 @@
 #!/bin/(shell)
 
-# NETWORK=base \
+# NETWORK=mainnet \
 # OWNER=0xfb59ce8986943163f14c590755b29db2998f2322 \
 # sh ./tasks/initial/index.sh
 

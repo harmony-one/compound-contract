@@ -2,7 +2,7 @@ import { task } from "hardhat/config";
 
 import protocolConfig from "../protocol.config";
 
-// npx hardhat deploy-price-oracle --network optimism
+// npx hardhat deploy-price-oracle --network mainnet
 
 task("update-price-oracle", "Updates the price oracle of the comptroller")
     .addParam("priceOracleKey", "The key of the price oracle to use")
