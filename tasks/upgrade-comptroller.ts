@@ -3,7 +3,7 @@ import { task, types } from "hardhat/config";
 
 /**
  * npx hardhat upgrade-comptroller \
- * --network kava \
+ * --network mainnet \
  */
 
 task("upgrade-comptroller", "Upgrade Comptroller").setAction(
