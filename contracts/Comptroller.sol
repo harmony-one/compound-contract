@@ -1278,10 +1278,6 @@ contract Comptroller is ComptrollerV7Storage, ComptrollerInterface, ComptrollerE
         } else if (deltaBlocks > 0) {
             supplyState.block = blockNumber;
         }
-
-        (bool success, ) = getExternalRewardDistributorAddress().call(
-            abi.encodeWithSignature("notifySupplyIndex(address)", cToken)
-        );
     }
 
     /**
@@ -1306,10 +1302,6 @@ contract Comptroller is ComptrollerV7Storage, ComptrollerInterface, ComptrollerE
         } else if (deltaBlocks > 0) {
             borrowState.block = blockNumber;
         }
-
-        (bool success, ) = getExternalRewardDistributorAddress().call(
-            abi.encodeWithSignature("notifyBorrowIndex(address)", cToken)
-        );
     }
 
     /**
@@ -1348,10 +1340,6 @@ contract Comptroller is ComptrollerV7Storage, ComptrollerInterface, ComptrollerE
         compAccrued[supplier] = supplierAccrued;
 
         emit DistributedSupplierComp(CToken(cToken), supplier, supplierDelta, supplyIndex);
-
-        (bool success, ) = getExternalRewardDistributorAddress().call(
-            abi.encodeWithSignature("notifySupplier(address,address)", cToken, supplier)
-        );
     }
 
     /**
@@ -1391,10 +1379,6 @@ contract Comptroller is ComptrollerV7Storage, ComptrollerInterface, ComptrollerE
         compAccrued[borrower] = borrowerAccrued;
 
         emit DistributedBorrowerComp(CToken(cToken), borrower, borrowerDelta, borrowIndex);
-
-        (bool success, ) = getExternalRewardDistributorAddress().call(
-            abi.encodeWithSignature("notifyBorrower(address,address)", cToken, borrower)
-        );
     }
 
     /**
@@ -1461,10 +1445,6 @@ contract Comptroller is ComptrollerV7Storage, ComptrollerInterface, ComptrollerE
         for (uint256 j = 0; j < holders.length; j++) {
             compAccrued[holders[j]] = grantCompInternal(holders[j], compAccrued[holders[j]]);
         }
-
-        (bool success, ) = getExternalRewardDistributorAddress().call(
-            abi.encodeWithSignature("claim(address[])", holders)
-        );
     }
 
     /**
@@ -1475,6 +1455,8 @@ contract Comptroller is ComptrollerV7Storage, ComptrollerInterface, ComptrollerE
      * @return The amount of COMP which was NOT transferred to the user
      */
     function grantCompInternal(address user, uint256 amount) internal returns (uint256) {
+        if (getCompAddress() == address(0)) return 0;
+
         Comp comp = Comp(getCompAddress());
         uint256 compRemaining = comp.balanceOf(address(this));
         if (amount > 0 && amount <= compRemaining) {
@@ -1570,18 +1552,10 @@ contract Comptroller is ComptrollerV7Storage, ComptrollerInterface, ComptrollerE
     }
 
     /**
-     * @notice Return the address of the SONNE token
-     * @return The address of SONNE
+     * @notice Return the address of the COMP token
+     * @return The address of COMP
      */
     function getCompAddress() public view virtual returns (address) {
-        return 0x1DB2466d9F5e10D7090E7152B68d62703a2245F0;
-    }
-
-    /**
-     * @notice Return the address of the external reward distributor
-     * @return The address of the external reward distributor
-     */
-    function getExternalRewardDistributorAddress() public view virtual returns (address) {
-        return 0x938Ed674a5580c9217612dE99Da8b5d476dCF13f;
+        return address(0);
     }
 }
