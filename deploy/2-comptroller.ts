@@ -9,16 +9,16 @@ const func: DeployFunction = async ({
 }: HardhatRuntimeEnvironment) => {
     const { deployer } = await getNamedAccounts();
 
-    let comptrollerImplDeploy = await getOrNull("ComptrollerImpl");
-    if (!comptrollerImplDeploy) {
-        comptrollerImplDeploy = await deploy("ComptrollerImpl", {
+    let comptrollerDeploy = await getOrNull("Comptroller");
+    if (!comptrollerDeploy) {
+        comptrollerDeploy = await deploy("Comptroller", {
             from: deployer,
             log: true,
             contract: "contracts/Comptroller.sol:Comptroller",
             args: [],
         });
     } else {
-        console.log(`Comptroller already deployed at ${comptrollerImplDeploy.address}`);
+        console.log(`Comptroller already deployed at ${comptrollerDeploy.address}`);
     }
 };
 
