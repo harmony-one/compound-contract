@@ -13,7 +13,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "Wrapped ONE" \
 --underlying-symbol "WONE" \
 --decimals 8 \
---comptroller-key "Unitroller" \
+--comptroller-key "Comptroller" \
 --interest-rate-model-key "MediumRateModel" \
 --owner $OWNER
 
@@ -24,7 +24,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "ETH" \
 --underlying-symbol "1ETH" \
 --decimals 8 \
---comptroller-key "Unitroller" \
+--comptroller-key "Comptroller" \
 --interest-rate-model-key "MediumRateModel" \
 --owner $OWNER
 
@@ -35,7 +35,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "USD Coin" \
 --underlying-symbol "1USDC" \
 --decimals 8 \
---comptroller-key "Unitroller" \
+--comptroller-key "Comptroller" \
 --interest-rate-model-key "StableRateModel" \
 --owner $OWNER
 
@@ -46,7 +46,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "Tether USD" \
 --underlying-symbol "1USDT" \
 --decimals 8 \
---comptroller-key "Unitroller" \
+--comptroller-key "Comptroller" \
 --interest-rate-model-key "StableRateModel" \
 --owner $OWNER
 
@@ -55,4 +55,10 @@ npx hardhat deploy-price-oracle --network $NETWORK
 
 npx hardhat update-price-oracle --network $NETWORK --price-oracle-key "ChainlinkPriceOracle"
 
+npx hardhat upgrade-comptroller --network $NETWORK
+
 npx hardhat support-markets --network $NETWORK
+
+npx hardhat sync-collateral-factors --network $NETWORK
+
+npx hardhat sync-reserve-factors --network $NETWORK
