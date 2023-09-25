@@ -1,7 +1,7 @@
 import { ProtocolConfig } from "./types";
 
 const config: ProtocolConfig = {
-    localhost: {
+    mainnet: {
         markets: {
             cWONE: {
                 source: "chainlink",
