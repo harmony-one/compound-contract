@@ -114,5 +114,5 @@ deployments/localhost
 
 typechain-types
 
-deployments
+deployments/localhost
 exports
