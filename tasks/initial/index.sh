@@ -55,6 +55,7 @@ npx hardhat deploy-price-oracle --network $NETWORK
 
 npx hardhat update-price-oracle --network $NETWORK --price-oracle-key "ChainlinkPriceOracle"
 
+# disable if the comptroller was already upgraded
 npx hardhat upgrade-comptroller --network $NETWORK
 
 npx hardhat support-markets --network $NETWORK
