@@ -6,6 +6,16 @@
 
 npx hardhat deploy --network $NETWORK
 
+npx hardhat deploy-native-ctoken \
+--network $NETWORK \
+--native-decimals 18 \
+--native-name "ONE" \
+--native-symbol "ONE" \
+--decimals 8 \
+--comptroller-key "Comptroller" \
+--interest-rate-model-key "MediumRateModel" \
+--owner $OWNER
+
 npx hardhat deploy-ctoken \
 --network $NETWORK \
 --underlying-address 0xcF664087a5bB0237a0BAd6742852ec6c8d69A27a \
