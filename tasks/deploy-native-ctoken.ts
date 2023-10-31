@@ -56,7 +56,7 @@ task("deploy-native-ctoken", "Deploys a new ctoken")
       cToken = await deploy(contractKey, {
         from: deployer,
         log: true,
-        contract: "contracts/COne.sol:COne",
+        contract: "contracts/CONE.sol:CONE",
         args: [
           comptrollerDeploy.address,
           interestRateModelDeploy.address,

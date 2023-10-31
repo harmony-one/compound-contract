@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 pragma solidity ^0.8.10;
 
-import "./COne.sol";
+import "./CONE.sol";
 
 /**
  * @title Compound's Maximillion Contract
@@ -11,12 +11,12 @@ contract Maximillion {
     /**
      * @notice The default cONE market to repay in
      */
-    COne public cONE;
+    CONE public cONE;
 
     /**
-     * @notice Construct a Maximillion to repay max in a COne market
+     * @notice Construct a Maximillion to repay max in a CONE market
      */
-    constructor(COne cONE_) public {
+    constructor(CONE cONE_) public {
         cONE = cONE_;
     }
 
@@ -35,7 +35,7 @@ contract Maximillion {
      * @param borrower The address of the borrower account to repay on behalf of
      * @param cONE_ The address of the cONE contract to repay in
      */
-    function repayBehalfExplicit(address borrower, COne cONE_) public payable {
+    function repayBehalfExplicit(address borrower, CONE cONE_) public payable {
         uint received = msg.value;
         uint borrows = cONE_.borrowBalanceCurrent(borrower);
         if (received > borrows) {

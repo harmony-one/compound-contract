@@ -4,13 +4,13 @@ pragma solidity ^0.8.10;
 import "./CToken.sol";
 
 /**
- * @title Compound's COne Contract
+ * @title Compound's CONE Contract
  * @notice CToken which wraps ONE
  * @author Compound
  */
-contract COne is CToken {
+contract CONE is CToken {
     /**
-     * @notice Construct a new COne money market
+     * @notice Construct a new CONE money market
      * @param comptroller_ The address of the Comptroller
      * @param interestRateModel_ The address of the interest rate model
      * @param initialExchangeRateMantissa_ The initial exchange rate, scaled by 1e18
@@ -116,7 +116,7 @@ contract COne is CToken {
     }
 
     /**
-     * @notice Send ONE to COne to mint
+     * @notice Send ONE to CONE to mint
      */
     receive() external payable {
         mintInternal(msg.value);
