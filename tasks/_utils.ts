@@ -7,6 +7,7 @@ export const filterCTokenDeployments = (deployments: {
         .filter(
             ([key, value]) =>
                 key.startsWith("CErc20Immutable_") || 
+                // cONE was changed to cWONE
                 // key.startsWith("CONE") ||
                 (key.startsWith("CErc20Upgradable_") &&
                     !key.endsWith("_Proxy") &&

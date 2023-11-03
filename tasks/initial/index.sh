@@ -9,7 +9,7 @@ npx hardhat deploy --network $NETWORK
 # disable if the comptroller was already upgraded
 npx hardhat upgrade-comptroller --network $NETWORK
 
-# Do not deploy cONE token.
+# cONE was changed to cWONE
 # npx hardhat deploy-native-ctoken \
 # --network $NETWORK \
 # --native-token-decimals 18 \
