@@ -9,15 +9,16 @@ npx hardhat deploy --network $NETWORK
 # disable if the comptroller was already upgraded
 npx hardhat upgrade-comptroller --network $NETWORK
 
-npx hardhat deploy-native-ctoken \
---network $NETWORK \
---native-token-decimals 18 \
---native-token-name "ONE" \
---native-token-symbol "ONE" \
---decimals 8 \
---comptroller-key "Unitroller" \
---interest-rate-model-key "MediumRateModel" \
---owner $OWNER
+# Do not deploy cONE token.
+# npx hardhat deploy-native-ctoken \
+# --network $NETWORK \
+# --native-token-decimals 18 \
+# --native-token-name "ONE" \
+# --native-token-symbol "ONE" \
+# --decimals 8 \
+# --comptroller-key "Unitroller" \
+# --interest-rate-model-key "MediumRateModel" \
+# --owner $OWNER
 
 npx hardhat deploy-ctoken \
 --network $NETWORK \
