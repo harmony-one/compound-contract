@@ -6,7 +6,7 @@ import { task, types } from "hardhat/config";
 // --native-token-name "Name" \
 // --native-token-symbol "SYMBOL" \
 // --decimals 8 \
-// --comptroller-key "Comptroller" \
+// --comptroller-key "Unitroller" \
 // --interest-rate-model-key "MediumRateModel" \
 // --owner "0xD0c46E5e40b38eEB3b685fD18550fC54e5aFA0F2"
 

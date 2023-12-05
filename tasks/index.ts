@@ -1,6 +1,8 @@
 import "./deploy-comptroller";
 import "./upgrade-comptroller";
 import "./deploy-ctoken";
+import "./deploy-native-ctoken";
+import "./deploy-maximillion";
 import "./deploy-price-oracle";
 import "./support-markets";
 import "./sync-collateral-factors";

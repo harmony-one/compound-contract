@@ -21,7 +21,7 @@ task("deploy-maximillion", "Deploys a maximillion for cONE contract").setAction(
             from: deployer,
             log: true,
             contract: "contracts/Maximillion.sol:Maximillion",
-            args:  [nativecTokenDeployment.address ],
+            args:  [ nativecTokenDeployment.address ],
         });
     }
 );

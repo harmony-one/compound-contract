@@ -31,13 +31,13 @@ const config: ProtocolConfig = {
               reserveFactor: 0.13,
               collateralFactor: 0.85
             },
-            // cONE: {
-            //     source: "chainlink",
-            //     priceFeed: "0xdcd81fbbd6c4572a69a534d8b8152c562da8abef",
-            //     baseUnit: "1000000000000000000",
-            //     reserveFactor: 0.15,
-            //     collateralFactor: 0.70
-            // },
+            cONE: {
+                source: "chainlink",
+                priceFeed: "0xdcd81fbbd6c4572a69a534d8b8152c562da8abef",
+                baseUnit: "1000000000000000000",
+                reserveFactor: 0.15,
+                collateralFactor: 0.70
+            },
         },
     },
 };

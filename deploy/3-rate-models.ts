@@ -60,7 +60,7 @@ const func: DeployFunction = async ({
         await deploy(def.name, {
             from: deployer,
             log: true,
-            contract: "contracts/JumpRateModelV4.sol:JumpRateModelV4",
+            contract: "contracts/JumpRateModelV5.sol:JumpRateModelV5",
             args: [
                 def.blocksPerYear, // seconds per year
                 def.baseRatePerYear, // base rate per year

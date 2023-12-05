@@ -45,15 +45,6 @@ const config: HardhatUserConfig = {
       gasMultiplier: 2,
       gas: 10e+6
     },
-    harmony: {
-      url: "https://api.harmony.one",
-      accounts: { mnemonic: process.env.MNEMONIC },
-      chainId: 1666600000,
-      live: true,
-      gasPrice: 100e+9,
-      gasMultiplier: 2,
-      gas: 10e+6
-    },
     s1: {
       url: "https://s1.api.harmony.one",
       accounts: { mnemonic: process.env.MNEMONIC },

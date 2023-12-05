@@ -21,8 +21,8 @@ contract Maximillion {
     }
 
     /**
-     * @notice msg.sender sends Ether to repay an account's borrow in the cONE market
-     * @dev The provided Ether is applied towards the borrow balance, any excess is refunded
+     * @notice msg.sender sends ONE to repay an account's borrow in the cONE market
+     * @dev The provided ONE is applied towards the borrow balance, any excess is refunded
      * @param borrower The address of the borrower account to repay on behalf of
      */
     function repayBehalf(address borrower) public payable {
@@ -30,8 +30,8 @@ contract Maximillion {
     }
 
     /**
-     * @notice msg.sender sends Ether to repay an account's borrow in a cONE market
-     * @dev The provided Ether is applied towards the borrow balance, any excess is refunded
+     * @notice msg.sender sends ONE to repay an account's borrow in a cONE market
+     * @dev The provided ONE is applied towards the borrow balance, any excess is refunded
      * @param borrower The address of the borrower account to repay on behalf of
      * @param cONE_ The address of the cONE contract to repay in
      */
