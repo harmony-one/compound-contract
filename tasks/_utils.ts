@@ -6,7 +6,8 @@ export const filterCTokenDeployments = (deployments: {
     const cTokenDeployments = Object.entries(deployments)
         .filter(
             ([key, value]) =>
-                key.startsWith("CErc20Immutable_") ||
+                key.startsWith("CErc20Immutable_") || 
+                key.startsWith("CONE") ||
                 (key.startsWith("CErc20Upgradable_") &&
                     !key.endsWith("_Proxy") &&
                     !key.endsWith("_Implementation"))
