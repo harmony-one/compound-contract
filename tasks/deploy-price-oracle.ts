@@ -26,7 +26,8 @@ task(
     const cTickers = cTokenDeployments.map((cTokenDeployment: any) =>
         !!cTokenDeployment.implementation
             ? cTokenDeployment.execute.args[5]
-            : cTokenDeployment.args[5],
+            : typeof cTokenDeployment.args[5] === 'number' 
+            ? cTokenDeployment.args[4] : cTokenDeployment.args[5], //CEthers (CONE) has a ticker as a 5th argument
     );
 
     const priceFeeds = cTickers.map((cTicker) => {

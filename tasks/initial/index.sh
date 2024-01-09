@@ -6,6 +6,19 @@
 
 npx hardhat deploy --network $NETWORK
 
+# disable if the comptroller was already upgraded
+npx hardhat upgrade-comptroller --network $NETWORK
+
+npx hardhat deploy-native-ctoken \
+--network $NETWORK \
+--native-token-decimals 18 \
+--native-token-name "ONE" \
+--native-token-symbol "ONE" \
+--decimals 8 \
+--comptroller-key "Unitroller" \
+--interest-rate-model-key "MediumRateModel" \
+--owner $OWNER
+
 npx hardhat deploy-ctoken \
 --network $NETWORK \
 --underlying-address 0xcF664087a5bB0237a0BAd6742852ec6c8d69A27a \
@@ -13,7 +26,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "Wrapped ONE" \
 --underlying-symbol "WONE" \
 --decimals 8 \
---comptroller-key "Comptroller" \
+--comptroller-key "Unitroller" \
 --interest-rate-model-key "MediumRateModel" \
 --owner $OWNER
 
@@ -24,7 +37,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "ETH" \
 --underlying-symbol "1ETH" \
 --decimals 8 \
---comptroller-key "Comptroller" \
+--comptroller-key "Unitroller" \
 --interest-rate-model-key "MediumRateModel" \
 --owner $OWNER
 
@@ -35,7 +48,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "USD Coin" \
 --underlying-symbol "1USDC" \
 --decimals 8 \
---comptroller-key "Comptroller" \
+--comptroller-key "Unitroller" \
 --interest-rate-model-key "StableRateModel" \
 --owner $OWNER
 
@@ -46,7 +59,7 @@ npx hardhat deploy-ctoken \
 --underlying-name "Tether USD" \
 --underlying-symbol "1USDT" \
 --decimals 8 \
---comptroller-key "Comptroller" \
+--comptroller-key "Unitroller" \
 --interest-rate-model-key "StableRateModel" \
 --owner $OWNER
 
@@ -54,9 +67,6 @@ npx hardhat deploy-ctoken \
 npx hardhat deploy-price-oracle --network $NETWORK
 
 npx hardhat update-price-oracle --network $NETWORK --price-oracle-key "ChainlinkPriceOracle"
-
-# disable if the comptroller was already upgraded
-npx hardhat upgrade-comptroller --network $NETWORK
 
 npx hardhat support-markets --network $NETWORK
 
