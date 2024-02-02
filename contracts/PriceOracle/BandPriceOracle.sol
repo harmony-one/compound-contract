@@ -20,7 +20,14 @@ interface IStdReference {
 
 /// @notice Band Price Oracle Contract returns USD value of cToken's underlying asset
 contract BandPriceOracle is PriceOracle {
+    error ArraySizeMismatch();
+    error PriceZero();
+    error OracleDataOutdated();
+
+    /// @notice cToken mapping to the Band Oracle supported tickers (e.g. c1ETH -> ETH)
     mapping(CToken => string) public cTokenSymbols;
+
+    /// @notice cToken mapping to underlying asset lowest denominations
     mapping(CToken => uint256) public baseUnits;
 
     /// @notice Band Oracle reference contract
@@ -41,11 +48,10 @@ contract BandPriceOracle is PriceOracle {
     /// @param _cTokens Compound cToken address array
     /// @param _symbols CToken's underlying asset symbol array that is supported by Band
     /// @param _baseUnits Smallest denomination array for underlying tokens (e.g. 1000000 for USDC)
-    constructor(IStdReference _ref, CToken[] memory _cTokens, string[] memory _symbols, uint[] memory _baseUnits) {
-        require(
-            _cTokens.length == _symbols.length && _cTokens.length == _baseUnits.length,
-            "arrays have to be the same size"
-        );
+    constructor(IStdReference _ref, CToken[] memory _cTokens, string[] memory _symbols, uint256[] memory _baseUnits) {
+        if(_cTokens.length != _symbols.length && _cTokens.length != _baseUnits.length){
+            revert ArraySizeMismatch();
+        }
 
         ref = _ref;
 
@@ -61,12 +67,14 @@ contract BandPriceOracle is PriceOracle {
     /// @return Price scaled 1e18
     function _retrievePrice(string memory _base) internal view returns (IStdReference.ReferenceData memory) {
         IStdReference.ReferenceData memory data = ref.getReferenceData(_base, QUOTE);
-        require(data.rate > 0, "price cannot be zero");
-        require(
-            block.timestamp - data.lastUpdatedQuote < ORACLE_STALENESS_THRESHOLD &&
-                block.timestamp - data.lastUpdatedBase < ORACLE_STALENESS_THRESHOLD,
-            "oracle data is outdated"
-        );
+
+        /// Revert if oracle data is not reliable (zero or outdated)
+        if(data.rate == 0) revert PriceZero();
+
+        if(block.timestamp - data.lastUpdatedQuote < ORACLE_STALENESS_THRESHOLD && 
+            block.timestamp - data.lastUpdatedBase < ORACLE_STALENESS_THRESHOLD){
+            revert OracleDataOutdated();
+        }
         return data;
     }
 
