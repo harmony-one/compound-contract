@@ -3,6 +3,7 @@ export type ProtocolConfig = {
 };
 
 export type ProtocolNetworkConfig = {
+  oracleRef?: `0x${string}`
   timelock?: `0x${string}`;
   multisig?: `0x${string}`;
   markets: {
@@ -16,4 +17,5 @@ export type MarketConfig = {
   baseUnit: `1${string}`;
   reserveFactor?: number;
   collateralFactor?: number;
+  bandOracleSymbol? : string
 };

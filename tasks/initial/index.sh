@@ -63,10 +63,12 @@ npx hardhat deploy-ctoken \
 --interest-rate-model-key "StableRateModel" \
 --owner $OWNER
 
+# Deprecated in Harmony
+# npx hardhat deploy-price-oracle --network $NETWORK
 
-npx hardhat deploy-price-oracle --network $NETWORK
+npx hardhat deploy-band-price-oracle --network $NETWORK
 
-npx hardhat update-price-oracle --network $NETWORK --price-oracle-key "ChainlinkPriceOracle"
+npx hardhat update-price-oracle --network $NETWORK --price-oracle-key "BandPriceOracle"
 
 npx hardhat support-markets --network $NETWORK
 

@@ -4,6 +4,7 @@ import "./deploy-ctoken";
 import "./deploy-native-ctoken";
 import "./deploy-maximillion";
 import "./deploy-price-oracle";
+import "./deploy-band-price-oracle";
 import "./support-markets";
 import "./sync-collateral-factors";
 import "./sync-reserve-factors";

@@ -29,7 +29,7 @@ contract BandPriceOracle is PriceOracle {
     IStdReference public ref;
 
     /// @notice The maximum allowed period since the latest updated data
-    uint256 public constant ORACLE_STALENESS_THRESHOLD = 1 days;
+    uint256 public constant ORACLE_STALENESS_THRESHOLD = 2 hours;
 
     /// @notice The decimals of the retrieved price of the oracle
     uint256 public constant ORACLE_DECIMALS = 18;
@@ -50,7 +50,14 @@ contract BandPriceOracle is PriceOracle {
         string[] memory _symbols, 
         uint[] memory _baseUnits) 
     {
+        require(
+            _cTokens.length == _symbols.length && 
+            _cTokens.length == _baseUnits.length,
+            "arrays have to be the same size"
+            );
+
         ref = _ref;
+
         for (uint256 i = 0; i < _cTokens.length; i++) {
             cTokenSymbols[_cTokens[i]] = _symbols[i];
             baseUnits[_cTokens[i]] = _baseUnits[i];
