@@ -38,7 +38,7 @@ const config: HardhatUserConfig = {
     },
     mainnet: {
       url: "https://api.harmony.one",
-      accounts: { mnemonic: process.env.MNEMONIC },
+      accounts: [process.env.PK ?? ''],
       chainId: 1666600000,
       live: true,
       gasPrice: 100e+9,
