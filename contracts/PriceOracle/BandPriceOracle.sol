@@ -49,7 +49,7 @@ contract BandPriceOracle is PriceOracle {
     /// @param _symbols CToken's underlying asset symbol array that is supported by Band
     /// @param _baseUnits Smallest denomination array for underlying tokens (e.g. 1000000 for USDC)
     constructor(IStdReference _ref, CToken[] memory _cTokens, string[] memory _symbols, uint256[] memory _baseUnits) {
-        if(_cTokens.length != _symbols.length && _cTokens.length != _baseUnits.length){
+        if (_cTokens.length != _symbols.length && _cTokens.length != _baseUnits.length) {
             revert ArraySizeMismatch();
         }
 
@@ -69,10 +69,12 @@ contract BandPriceOracle is PriceOracle {
         IStdReference.ReferenceData memory data = ref.getReferenceData(_base, QUOTE);
 
         /// Revert if oracle data is not reliable (zero or outdated)
-        if(data.rate == 0) revert PriceZero();
+        if (data.rate == 0) revert PriceZero();
 
-        if(block.timestamp - data.lastUpdatedQuote < ORACLE_STALENESS_THRESHOLD && 
-            block.timestamp - data.lastUpdatedBase < ORACLE_STALENESS_THRESHOLD){
+        if (
+            block.timestamp - data.lastUpdatedQuote < ORACLE_STALENESS_THRESHOLD &&
+            block.timestamp - data.lastUpdatedBase < ORACLE_STALENESS_THRESHOLD
+        ) {
             revert OracleDataOutdated();
         }
         return data;
