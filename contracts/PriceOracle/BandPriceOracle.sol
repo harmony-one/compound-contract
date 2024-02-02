@@ -5,20 +5,18 @@ import "../PriceOracle.sol";
 
 /// @notice Interface of a Band Oracle contract for base/quote price fetching
 interface IStdReference {
-    
     struct ReferenceData {
-    /// base/quote exchange rate scaled by 1e18
-    uint256 rate;
-    /// timestamp of the last time base price was updated
-    uint256 lastUpdatedBase;
-    /// timestamp of the last time quote price was updated
-    uint256 lastUpdatedQuote;
-  }
+        /// base/quote exchange rate scaled by 1e18
+        uint256 rate;
+        /// timestamp of the last time base price was updated
+        uint256 lastUpdatedBase;
+        /// timestamp of the last time quote price was updated
+        uint256 lastUpdatedQuote;
+    }
 
- /// @notice The default quote used for compound is USD
-  function getReferenceData(string memory _base, string memory _quote) external view returns (ReferenceData memory);
+    /// @notice The default quote used for compound is USD
+    function getReferenceData(string memory _base, string memory _quote) external view returns (ReferenceData memory);
 }
-
 
 /// @notice Band Price Oracle Contract returns USD value of cToken's underlying asset
 contract BandPriceOracle is PriceOracle {
@@ -37,24 +35,17 @@ contract BandPriceOracle is PriceOracle {
     /// @notice The default quote used for compound is USD
     string public constant QUOTE = "USD";
 
-
     /// @notice Construct a cToken configuration
     /// @dev cTokens, _symbols and _baseUnits have to be passed in array in the exact sequence for each param.
     /// @param _ref Contract of the Band Oracle price feed
     /// @param _cTokens Compound cToken address array
     /// @param _symbols CToken's underlying asset symbol array that is supported by Band
     /// @param _baseUnits Smallest denomination array for underlying tokens (e.g. 1000000 for USDC)
-    constructor(
-        IStdReference _ref, 
-        CToken[] memory _cTokens, 
-        string[] memory _symbols, 
-        uint[] memory _baseUnits) 
-    {
+    constructor(IStdReference _ref, CToken[] memory _cTokens, string[] memory _symbols, uint[] memory _baseUnits) {
         require(
-            _cTokens.length == _symbols.length && 
-            _cTokens.length == _baseUnits.length,
+            _cTokens.length == _symbols.length && _cTokens.length == _baseUnits.length,
             "arrays have to be the same size"
-            );
+        );
 
         ref = _ref;
 
@@ -68,31 +59,22 @@ contract BandPriceOracle is PriceOracle {
     /// @dev Function retrieves price from the Band Oracle in a USD format (QUOTE = "USD")
     /// @param _base The symbol of an asset supported by Band
     /// @return Price scaled 1e18
-    function _retrievePrice(string memory _base) 
-        internal 
-        view 
-        returns (IStdReference.ReferenceData memory)
-    {
+    function _retrievePrice(string memory _base) internal view returns (IStdReference.ReferenceData memory) {
         IStdReference.ReferenceData memory data = ref.getReferenceData(_base, QUOTE);
         require(data.rate > 0, "price cannot be zero");
-        require (
-            block.timestamp - data.lastUpdatedQuote < ORACLE_STALENESS_THRESHOLD && 
-            block.timestamp - data.lastUpdatedBase < ORACLE_STALENESS_THRESHOLD, 
+        require(
+            block.timestamp - data.lastUpdatedQuote < ORACLE_STALENESS_THRESHOLD &&
+                block.timestamp - data.lastUpdatedBase < ORACLE_STALENESS_THRESHOLD,
             "oracle data is outdated"
-            );
+        );
         return data;
     }
-    
+
     /// @notice Get the price of an underlying cToken asset in expected format by Comptroller
     /// @dev Comptroller expects this format: unscaledPrice * 1e36 / base_units
     /// @param cToken The cToken market address
     /// @return Underlying asset's price scaled by the expected format
-    function getUnderlyingPrice(CToken cToken) 
-        external 
-        view 
-        override 
-        returns (uint256) 
-    {
+    function getUnderlyingPrice(CToken cToken) external view override returns (uint256) {
         IStdReference.ReferenceData memory data = _retrievePrice(cTokenSymbols[cToken]);
         /// expected result format is of a raw (unscaled) price * 1e36 / base_units
         /// however, Band Oracle returns price scaled by 1e18
